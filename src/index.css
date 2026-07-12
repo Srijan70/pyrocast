@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-base-950 text-slate-200 antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    overflow: hidden;
+  }
+
+  /* Thin, dark scrollbars to match the theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a3340;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a4553;
+  }
+}
+
+@layer components {
+  /* Skeleton shimmer used by loading states */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-base-700/60;
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Range slider styling (fire accent) */
+  .range-fire {
+    @apply h-1.5 w-full cursor-pointer appearance-none rounded-full bg-base-700;
+    outline: none;
+  }
+  .range-fire::-webkit-slider-thumb {
+    @apply h-4 w-4 appearance-none rounded-full;
+    background: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.18);
+    transition: box-shadow 120ms ease;
+  }
+  .range-fire::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 0 5px rgba(255, 107, 53, 0.24);
+  }
+  .range-fire::-moz-range-thumb {
+    @apply h-4 w-4 rounded-full border-0;
+    background: #ff6b35;
+  }
+}
+
+/* Watch-location markers are GPU map layers (see WorldMap.tsx) — no DOM
+   marker CSS needed. This guarantees they stay pixel-locked to the basemap. */
+
+/* Region View: zoom control moves to top-right, below the overlay pills */
+.region-map .maplibregl-ctrl-top-right {
+  top: 60px;
+}
+
+/* MapLibre canvas should never show a focus outline */
+.maplibregl-canvas:focus {
+  outline: none;
+}
+
+/* MapLibre attribution — subtle in dark theme */
+.maplibregl-ctrl-attrib {
+  background: rgba(8, 9, 12, 0.6) !important;
+}
+.maplibregl-ctrl-attrib a {
+  color: #64748b !important;
+}
